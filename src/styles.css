@@ -1,0 +1,213 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import "tailwindcss";
+@plugin "daisyui";
+
+@source "./app/**/*.ts";
+@source "./index.html";
+
+/* ── TailAdmin color tokens ─────────────────────────────────────────── */
+@theme {
+  --font-outfit: Outfit, sans-serif;
+
+  --color-brand-50:  #ecf3ff;
+  --color-brand-100: #dde9ff;
+  --color-brand-400: #7592ff;
+  --color-brand-500: #465fff;
+  --color-brand-600: #3641f5;
+
+  --color-gray-50:   #f9fafb;
+  --color-gray-100:  #f2f4f7;
+  --color-gray-200:  #e4e7ec;
+  --color-gray-300:  #d0d5dd;
+  --color-gray-400:  #98a2b3;
+  --color-gray-500:  #667085;
+  --color-gray-600:  #475467;
+  --color-gray-700:  #344054;
+  --color-gray-800:  #1d2939;
+  --color-gray-900:  #101828;
+
+  --color-success-50:  #ecfdf3;
+  --color-success-100: #d1fadf;
+  --color-success-600: #039855;
+  --color-success-700: #027a48;
+
+  --color-error-50:  #fef3f2;
+  --color-error-100: #fee4e2;
+  --color-error-600: #d92d20;
+  --color-error-700: #b42318;
+
+  --color-warning-50:  #fffaeb;
+  --color-warning-100: #fef0c7;
+  --color-warning-600: #dc6803;
+  --color-warning-700: #b54708;
+
+  --shadow-theme-sm: 0px 1px 3px 0px rgba(16,24,40,0.1), 0px 1px 2px 0px rgba(16,24,40,0.06);
+  --shadow-theme-md: 0px 4px 8px -2px rgba(16,24,40,0.1), 0px 2px 4px -2px rgba(16,24,40,0.06);
+}
+
+/* ── Base ───────────────────────────────────────────────────────────── */
+@layer base {
+  body {
+    font-family: Outfit, sans-serif;
+    background-color: #f9fafb;
+    color: #101828;
+  }
+  *, ::after, ::before, ::backdrop {
+    border-color: #e4e7ec;
+  }
+}
+
+/* ── DaisyUI overrides for light theme ─────────────────────────────── */
+[data-theme="light"] {
+  --color-primary:         oklch(54% 0.24 264);   /* #465fff */
+  --color-primary-content: oklch(100% 0 0);
+  --color-base-100:        oklch(100% 0 0);
+  --color-base-200:        oklch(97.5% 0.004 264);
+  --color-base-300:        oklch(93% 0.008 264);
+  --color-base-content:    oklch(18% 0.028 258);
+}
+
+/* ── Sidebar nav ────────────────────────────────────────────────────── */
+/* Base inactive state */
+.menu-item-inactive {
+  color: #aeb9c9;
+}
+.menu-item-inactive:not(.menu-item-active):hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #dee2e7;
+}
+.menu-item-inactive:not(.menu-item-active):hover svg {
+  color: #dee2e7;
+}
+
+/* Active state — subtle brand glow on dark sidebar */
+.menu-item-active {
+  background-color: rgba(70, 95, 255, 0.12);
+  color: #818cf8;
+}
+.menu-item-active svg {
+  color: #818cf8;
+}
+
+/* ── Page card ──────────────────────────────────────────────────────── */
+.ta-card {
+  background: #ffffff;
+  border: 1px solid #e4e7ec;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-theme-sm);
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────── */
+.ta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms, color 150ms;
+  padding: 0.625rem 1.25rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+.ta-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ta-btn-primary {
+  background-color: #465fff;
+  color: #ffffff;
+  border: 1px solid #465fff;
+}
+.ta-btn-primary:not(:disabled):hover {
+  background-color: #3641f5;
+  border-color: #3641f5;
+}
+
+.ta-btn-secondary {
+  background-color: #ffffff;
+  color: #344054;
+  border: 1px solid #d0d5dd;
+}
+.ta-btn-secondary:not(:disabled):hover {
+  background-color: #f9fafb;
+}
+
+.ta-btn-ghost {
+  background-color: transparent;
+  color: #667085;
+  border: 1px solid transparent;
+}
+.ta-btn-ghost:not(:disabled):hover {
+  background-color: #f2f4f7;
+  color: #344054;
+}
+
+.ta-btn-sm  { padding: 0.375rem 0.875rem; font-size: 0.8125rem; }
+.ta-btn-xs  { padding: 0.25rem 0.625rem;  font-size: 0.75rem; }
+
+/* ── Badges ─────────────────────────────────────────────────────────── */
+.ta-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.ta-badge-success { background-color: #d1fadf; color: #027a48; }
+.ta-badge-warning { background-color: #fef0c7; color: #b54708; }
+.ta-badge-info    { background-color: #dde9ff; color: #3641f5; }
+.ta-badge-error   { background-color: #fee4e2; color: #b42318; }
+.ta-badge-neutral { background-color: #f2f4f7; color: #344054; }
+
+/* ── Table ──────────────────────────────────────────────────────────── */
+.ta-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.ta-table thead tr {
+  background-color: #f9fafb;
+}
+.ta-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 500;
+  color: #667085;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #e4e7ec;
+}
+.ta-table td {
+  padding: 0.75rem 1rem;
+  color: #344054;
+  border-bottom: 1px solid #e4e7ec;
+}
+.ta-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.ta-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* ── Page heading ───────────────────────────────────────────────────── */
+.ta-page-title {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: #101828;
+  line-height: 1.3;
+}
+
+/* ── Section label (muted uppercase) ───────────────────────────────── */
+.ta-section-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #667085;
+}

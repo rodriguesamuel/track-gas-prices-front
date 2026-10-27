@@ -1,0 +1,103 @@
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { AuthService } from '../../../core/services/auth.service';
+import { LanguageSwitcherComponent } from '../../../shared/components/language-switcher/language-switcher.component';
+
+@Component({
+  selector: 'app-register',
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterLink, TranslocoPipe, LanguageSwitcherComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div class="min-h-screen flex items-center justify-center bg-[#f9fafb] p-4">
+      <div class="w-full max-w-sm bg-white rounded-2xl border border-[#e4e7ec]" style="box-shadow:0px 4px 24px rgba(16,24,40,0.08)">
+        <div class="p-8">
+          <div class="flex justify-between items-center mb-2">
+            <div class="flex items-center gap-2">
+              <svg class="w-7 h-7 text-[#465fff]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C8 7 5 10.5 5 14a7 7 0 0 0 14 0c0-3.5-3-7-7-12z"/>
+              </svg>
+              <h2 class="text-2xl font-semibold text-[#101828]">TrackGas</h2>
+            </div>
+            <app-language-switcher />
+          </div>
+          <p class="text-sm text-[#667085] mb-6">{{ 'auth.registerTitle' | transloco }}</p>
+
+          <form [formGroup]="form" (ngSubmit)="submit()" class="mt-4 space-y-3">
+            @if (error()) {
+              <div class="alert alert-error text-sm">{{ error() }}</div>
+            }
+
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">{{ 'auth.name' | transloco }}</legend>
+              <input type="text" formControlName="name" class="input w-full" />
+            </fieldset>
+
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">{{ 'auth.email' | transloco }}</legend>
+              <input type="email" formControlName="email" class="input w-full"
+                     [class.input-error]="form.get('email')?.invalid && form.get('email')?.touched" />
+            </fieldset>
+
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">{{ 'auth.password' | transloco }}</legend>
+              <input type="password" formControlName="password" class="input w-full"
+                     [class.input-error]="form.get('password')?.invalid && form.get('password')?.touched" />
+              <p class="fieldset-label text-base-content/50">{{ 'auth.passwordHint' | transloco }}</p>
+            </fieldset>
+
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">{{ 'auth.language' | transloco }}</legend>
+              <select formControlName="locale" class="select w-full">
+                <option value="pt-BR">🇧🇷 Português</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="es">🇪🇸 Español</option>
+              </select>
+            </fieldset>
+
+            <button type="submit" class="ta-btn ta-btn-primary w-full mt-2" [disabled]="loading()">
+              @if (loading()) { <span class="loading loading-spinner loading-sm"></span> }
+              {{ 'auth.createAccount' | transloco }}
+            </button>
+          </form>
+
+          <p class="text-center text-sm text-[#667085] mt-5">
+            {{ 'auth.hasAccount' | transloco }}
+            <a routerLink="/login" class="text-[#465fff] font-medium hover:underline ml-1">{{ 'auth.login' | transloco }}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  `,
+})
+export class RegisterComponent {
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+
+  readonly form = this.fb.group({
+    name: [''],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    locale: ['pt-BR', Validators.required],
+  });
+
+  readonly loading = signal(false);
+  readonly error = signal('');
+
+  submit() {
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    this.loading.set(true);
+    this.error.set('');
+    const { email, password, name, locale } = this.form.getRawValue();
+    this.auth.register(email!, password!, name ?? '', locale!).subscribe({
+      next: () => this.router.navigate(['/fuel']),
+      error: (err) => {
+        this.error.set(err?.error?.message ?? 'Registration failed');
+        this.loading.set(false);
+      },
+    });
+  }
+}

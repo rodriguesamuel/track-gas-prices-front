@@ -1,0 +1,14 @@
+{
+  "templates": [
+    { "type": "oil_change", "label": "Troca de Óleo", "defaultIntervalKm": 10000, "defaultIntervalMonths": 6 },
+    { "type": "tire_rotation", "label": "Rodízio de Pneus", "defaultIntervalKm": 10000, "defaultIntervalMonths": 6 },
+    { "type": "timing_belt", "label": "Correia Dentada", "defaultIntervalKm": 80000, "defaultIntervalMonths": 48 },
+    { "type": "brake_pads", "label": "Pastilhas de Freio", "defaultIntervalKm": 40000, "defaultIntervalMonths": null },
+    { "type": "coolant", "label": "Fluido de Arrefecimento", "defaultIntervalKm": 40000, "defaultIntervalMonths": 24 },
+    { "type": "air_filter", "label": "Filtro de Ar", "defaultIntervalKm": 20000, "defaultIntervalMonths": 12 },
+    { "type": "cabin_filter", "label": "Filtro de Cabine", "defaultIntervalKm": 15000, "defaultIntervalMonths": 12 },
+    { "type": "transmission_fluid", "label": "Fluido de Câmbio", "defaultIntervalKm": 60000, "defaultIntervalMonths": null },
+    { "type": "brake_fluid", "label": "Fluido de Freio", "defaultIntervalKm": null, "defaultIntervalMonths": 24 },
+    { "type": "spark_plugs", "label": "Velas de Ignição", "defaultIntervalKm": 40000, "defaultIntervalMonths": 24 }
+  ]
+}
